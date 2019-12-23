@@ -1,20 +1,44 @@
 import sys
-
-from win32com.client import Dispatch
+import win32com.client as win32
 
 """
 The script aimed to update slicer filtering according to BOM items.
 
+Version 0.1 beta
 """
-data = ["Fruit", "Vegetables"]
 
-xl = Dispatch("Excel.Application")
-wb = xl.Workbooks.Open("example.xlsx")
-sl = wb.SlicerCaches("Slicer_Category")
+def openWorkbook(xlapp, xlfile):
+    try:        
+        xlwb = xlapp.Workbooks(xlfile)            
+    except Exception as e:
+        try:
+            xlwb = xlapp.Workbooks.Open(xlfile)
+        except Exception as e:
+            print(e)
+            xlwb = None                    
+    return(xlwb)
 
-for it in sl.SlicerItems:
-    print(it.name)
-    if it.name in data:
-        it.Selected = True
-    else:
-        it.Selected = False
+data = ["Vegetables"]
+
+# open appropriate excel document
+try:
+    excel = win32.gencache.EnsureDispatch('Excel.Application')
+    wb = openWorkbook(excel, 'script.xlsx')
+    ws = wb.Worksheets('Ortho')
+    sl = wb.SlicerCaches("Slicer_BOM")
+
+    # working example of visible slicer item list 
+    sl.VisibleSlicerItemsList = ["[Medical Case].[BOM].&[SD900.104 (Qty:1)]"]
+
+except Exception as e:
+   print(e)
+
+finally:
+    # RELEASES RESOURCES
+    #wb.Close(SaveChanges=1)
+    ws = None
+    wb = None
+    excel = None
+
+
+

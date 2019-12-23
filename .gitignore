@@ -9,6 +9,9 @@ Backup of *.doc*
 # Excel temporary
 ~$*.xls*
 
+# Excel files
+*.xlsx
+
 # Excel Backup File
 *.xlk
 
