@@ -4,8 +4,10 @@ import win32com.client as win32
 """
 The script aimed to update slicer filtering according to BOM items.
 
-Version 0.1 beta
+Version 1.0
 """
+FILE_NAME = "script.xlsx"
+SLICER_NAME = "Slicer_BOM"
 
 def openWorkbook(xlapp, xlfile):
     try:        
@@ -18,24 +20,26 @@ def openWorkbook(xlapp, xlfile):
             xlwb = None                    
     return(xlwb)
 
-data = ["Vegetables"]
+# filling array with already filtered BOM data
+data = []
+
+with open('bom_filtered.txt') as my_file:
+    for line in my_file:
+        data.append(line.rstrip('\n'))
 
 # open appropriate excel document
 try:
     excel = win32.gencache.EnsureDispatch('Excel.Application')
-    wb = openWorkbook(excel, 'script.xlsx')
-    ws = wb.Worksheets('Ortho')
-    sl = wb.SlicerCaches("Slicer_BOM")
-
-    # working example of visible slicer item list 
-    sl.VisibleSlicerItemsList = ["[Medical Case].[BOM].&[SD900.104 (Qty:1)]"]
+    wb = openWorkbook(excel, FILE_NAME)
+    sl = wb.SlicerCaches(SLICER_NAME)
+    sl.VisibleSlicerItemsList = data # select only needed data in slicer
+    
 
 except Exception as e:
    print(e)
 
 finally:
     # RELEASES RESOURCES
-    #wb.Close(SaveChanges=1)
     ws = None
     wb = None
     excel = None
