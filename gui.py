@@ -13,8 +13,7 @@ def open_file():
     global FILE_NAME
     FILE_NAME = file_name.name
 
-    # os.startfile(FILE_NAME)
-
+    #os.startfile(FILE_NAME)
 
 
 class Main(tk.Frame):

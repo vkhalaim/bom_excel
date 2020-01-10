@@ -2,7 +2,7 @@ import sys
 import win32com.client as win32
 from pathlib import Path
 
-from filter import openWorkbook
+from scripts.filter import openWorkbook
 
 ''' Filtering needed BOM items from file '''
 
@@ -16,7 +16,7 @@ def prepare(FILE_NAME, SLICER_NAME):
     allSlicerElements = ()
     try:
         excel = win32.gencache.EnsureDispatch('Excel.Application')
-        wb = openWorkbook(excel, FILE_NAME)
+        wb = openWorkbook(excel, Path(FILE_NAME))
         sl = wb.SlicerCaches(SLICER_NAME)
 
         allSlicerElements = sl.VisibleSlicerItemsList # select all elements from slicer
