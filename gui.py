@@ -1,3 +1,4 @@
+#!"C:\Program Files (x86)\Python 38"
 import tkinter as tk
 from scripts.functions import open_file, prepare, filtering
 
@@ -7,13 +8,13 @@ class Main(tk.Frame):
         super().__init__(root)
         self.init_main()
 
-
     def init_main(self):
         self.toolbar = tk.Frame(bg="#dfd8e0", bd=2)
         self.toolbar.pack(side=tk.TOP, fill=tk.X)
         self.buttonOpen = tk.Button(text="Openfile", command=open_file)
         self.buttonOpen.pack()
-        self.buttonPrepare = tk.Button(text="Prepare Filtering", command=prepare)
+        self.buttonPrepare = tk.Button(text="Prepare Filtering",
+                                       command=prepare)
         self.buttonPrepare.pack()
         self.buttonFilter = tk.Button(text="Filter", command=filtering)
         self.buttonFilter.pack()

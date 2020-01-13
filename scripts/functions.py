@@ -9,11 +9,13 @@ SLICER_NAME = 'Slicer_BOM'
 WORK_BOOK = None
 
 data_folder = Path("./txt")
-# bom elements which should be turned on after filtering 
-bom_needed = ["SD900.101", "SD900.102", "SD900.104", "SD900.105", "SD900.106", "SD900.107", "SD900.108", "SD900.109", "SD900.110", "SD900.111", "SD900.001", 
-    "SD900.003", "SD900.004", "SD900.006", "SD900.008", "SD900.009", "SD900.010", "SD900.011", "SD900.051", "SD900.054", "SD900.056", "SD980.001", "SD980.002", 
-    "SD980.005", "SD980.006", "SD980.009", "SD980.120"
-]
+# bom elements which should be turned on after filtering
+bom_needed = ["SD900.101", "SD900.102", "SD900.104", "SD900.105", "SD900.106",
+              "SD900.107", "SD900.108", "SD900.109", "SD900.110", "SD900.111",
+              "SD900.001", "SD900.003", "SD900.004", "SD900.006", "SD900.008",
+              "SD900.009", "SD900.010", "SD900.011", "SD900.051", "SD900.054",
+              "SD900.056", "SD980.001", "SD980.002", "SD980.005", "SD980.006",
+              "SD980.009", "SD980.120"]
 
 
 def open_file():
@@ -24,15 +26,15 @@ def open_file():
     os.startfile(FILE_NAME)
     excel = win32.gencache.EnsureDispatch('Excel.Application')
 
-    try:        
-        WORK_BOOK = excel.Workbooks(FILE_NAME)            
+    try:
+        WORK_BOOK = excel.Workbooks(FILE_NAME)
     except Exception as e:
         try:
             WORK_BOOK = excel.Workbooks.Open(FILE_NAME)
         except Exception as e:
             print(e)
-            WORK_BOOK = None                    
-    
+            WORK_BOOK = None
+
 
 def filtering():
     # filling array with already filtered BOM data
@@ -46,9 +48,8 @@ def filtering():
     try:
         wb = WORK_BOOK
         sl = wb.SlicerCaches(SLICER_NAME)
-
-        sl.VisibleSlicerItemsList = data # select only needed data in slicer
-        
+        # select only needed data in slicer
+        sl.VisibleSlicerItemsList = data
 
     except Exception as e:
         print(e)
@@ -63,9 +64,9 @@ def prepare():
     try:
         wb = WORK_BOOK
         sl = wb.SlicerCaches(SLICER_NAME)
+        # select all elements from slicer
+        allSlicerElements = sl.VisibleSlicerItemsList
 
-        allSlicerElements = sl.VisibleSlicerItemsList # select all elements from slicer
-        
     except Exception as e:
         print(e)
 
@@ -77,7 +78,6 @@ def prepare():
         for elem in allSlicerElements:
             f.write(elem + '\n')
 
-        
     # fill in array with needed elements
     bom_array = []
 
@@ -88,11 +88,9 @@ def prepare():
                     bom_array.append(line)
                     break
 
-
-    #erase bom filtered elemets before write
+    # erase bom filtered elemets before write
     with open(data_folder / 'bom_filtered.txt', 'w') as f:
         f.truncate(0)
 
         for item in bom_array:
             f.write(item)
-
