@@ -1,0 +1,2 @@
+[Medical Case].[BOM].&[SD900.105 (Qty:1), SD980.001 (Qty:1), SD980.120 (Qty:1)]
+[Medical Case].[BOM].&[SD900.106 (Qty:1), SD980.001 (Qty:1), SD980.120 (Qty:1)]
