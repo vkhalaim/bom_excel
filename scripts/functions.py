@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import win32com.client as win32
 from tkinter import filedialog as fd
@@ -17,13 +18,15 @@ bom_needed = ["SD900.101", "SD900.102", "SD900.104", "SD900.105", "SD900.106",
               "SD900.056", "SD980.001", "SD980.002", "SD980.005", "SD980.006",
               "SD980.009", "SD980.120"]
 
+def get_logo_path():
+    return Path('./img') / 'materialise_logo.jpg'
+
 
 def open_file():
     file_name = fd.askopenfile()
     global FILE_NAME
     global WORK_BOOK
     FILE_NAME = file_name.name
-    os.startfile(FILE_NAME)
     excel = win32.gencache.EnsureDispatch('Excel.Application')
 
     try:
