@@ -19,7 +19,7 @@ bom_needed = ["SD900.101", "SD900.102", "SD900.104", "SD900.105", "SD900.106",
               "SD980.009", "SD980.120"]
 
 def get_logo_path():
-    return Path('./img') / 'materialise_logo.jpg'
+    return Path('./img') / 'materialise-logo.png'
 
 
 def open_file():

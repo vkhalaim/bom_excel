@@ -11,6 +11,8 @@ class Main(tk.Frame):
         self.init_main()
 
     def init_main(self):
+        tk.Label(text='Excel File').grid(row=0, column=0, sticky=tk.W, pady=10, padx=10)
+
         #creating frames
         self.bottom_frame = tk.Frame(root, width=650, height=150)
         self.bottom_frame.pack(side=tk.BOTTOM)
