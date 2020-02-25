@@ -1,50 +1,48 @@
  #! python3
  # -*- coding: utf-8 -*-
-import tkinter as tk
+from tkinter import *
+import tkinter.ttk as ttk
+from ttkthemes import ThemedStyle
 from PIL import ImageTk, Image
 from scripts.functions import open_file, prepare, filtering, get_logo_path
 
+WINDOW_WIDTH = 600
+WINDOW_HEIGHT = 220
+  
+#basic parameters for window
+root = Tk()
+root.title("BOM Filtering Utility")
+root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+300+200")
+root.resizable(False, False)
 
-class Main(tk.Frame):
-    def __init__(self, root):
-        super().__init__(root)
-        self.init_main()
+#style
+style=ThemedStyle(root)
+style.set_theme("plastik")
 
-    def init_main(self):
-        tk.Label(text='Excel File').grid(row=0, column=0, sticky=tk.W, pady=10, padx=10)
+#open file
+ttk.Label(text="Excel File:").grid(row=0, column=0, sticky=W, pady=10, padx=WINDOW_WIDTH/5)
+chosen_file = ttk.Button(text="Openfile", command=open_file)
+chosen_file.grid(row=0, column=1, columnspan=3, sticky=W+E, padx=10)
 
-        #creating frames
-        self.bottom_frame = tk.Frame(root, width=650, height=150)
-        self.bottom_frame.pack(side=tk.BOTTOM)
+#Check Slicer name
+ttk.Label(text="Name of Slicer:").grid(row=1, column=0, sticky=W, pady=10, padx=WINDOW_WIDTH/5)
+slicer_name = ttk.Entry()
+slicer_name.insert(END, "Slicer_BOM")
+slicer_name.grid(row=1, column=1, columnspan=3, sticky=W+E, padx=10)
 
-        self.left_frame = tk.Frame(root, width=325, height=300)
-        self.left_frame.pack(side=tk.LEFT)
+#choose mode
+ttk.Label(text="Select Mode:").grid(row=2, column=0, sticky=W, pady=10, padx=WINDOW_WIDTH/5)
+mode = ttk.Spinbox(width=7, values=("Guides", "Models"))
+mode.grid(row=2, column=2, columnspan=3, sticky=W+E, padx=10)
 
-        self.right_frame = tk.Frame(root, width=325, height=300)
-        self.right_frame.pack(side=tk.RIGHT)
+#prepare filtering
+ttk.Label(text="Prepare Filtering:").grid(row=3, column=0, sticky=W, pady=10, padx=WINDOW_WIDTH/5)
+prepare_filtering = ttk.Button(text="Prepare", command=lambda: prepare(slicer_name.get(), mode.get()))
+prepare_filtering.grid(row=3, column=1, columnspan=3, sticky=W+E, padx=10)
 
-        #prepare logo
-        path = get_logo_path()
-        self.img = ImageTk.PhotoImage(Image.open(path))
-        self.panel = tk.Label(self.bottom_frame, image=self.img, padx=-400)
-        self.panel.pack(side=tk.LEFT)
+#Filter
+ttk.Label(text="Filter Excel File:").grid(row=4, column=0, sticky=W, pady=10, padx=WINDOW_WIDTH/5)
+filter_file = ttk.Button(text="Filter", command=lambda: filtering(slicer_name.get()))
+filter_file.grid(row=4, column=1, columnspan=3, sticky=W+E, padx=10)
 
-        #open file for both models and guides
-        self.button_open = tk.Button(text="Openfile", command=open_file)
-        self.button_open.pack()
-
-        # prepare guide design panel
-        self.button_prepare = tk.Button(self.left_frame, text="Prepare Filtering",
-                                       command=prepare)
-        self.button_prepare.pack()
-        self.button_filter = tk.Button(self.left_frame, text="Filter", command=filtering)
-        self.button_filter.pack()
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = Main(root)
-    app.pack()
-    root.title("Excel filtering")
-    root.geometry("650x450+300+200")
-    root.resizable(False, False)
-    root.mainloop()    
+root.mainloop()
