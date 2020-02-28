@@ -62,30 +62,84 @@ def open_file():
             WORK_BOOK = None
 
 
-def filtering(SLICER_NAME):
-    # filling array with already filtered BOM data
-    data = []
+def filtering(SLICER_NAME, MODE):
+    # preparing filtered txt files
+    bom_array = []
 
-    with open(data_folder / 'bom_filtered.txt', 'r') as my_file:
-        for line in my_file:
-            data.append(line.rstrip('\n'))
+    if MODE == 'GUIDES':
+        with open(data_folder / 'bom_items.txt', 'r') as my_file:
+            for line in my_file:
+                for elem in GUIDES:
+                    if elem in line:
+                        bom_array.append(line)
+                        break
 
-    # open appropriate excel document
-    try:
-        wb = WORK_BOOK
-        sl = wb.SlicerCaches(SLICER_NAME)
-        # select only needed data in slicer
-        sl.VisibleSlicerItemsList = data
+        with open(data_folder / 'bom_filtered_guides.txt', 'w') as f:
+            f.truncate(0)
 
-    except Exception as e:
-        print(e)
+            for item in bom_array:
+                f.write(item)
 
-    finally:
-        # RELEASES RESOURCES
-        wb = None
+        bom_array = []
+        # filling array with already filtered BOM data
+        data = []
+
+        with open(data_folder / 'bom_filtered_guides.txt', 'r') as my_file:
+            for line in my_file:
+                data.append(line.rstrip('\n'))
+
+        # open appropriate excel document
+        try:
+            wb = WORK_BOOK
+            sl = wb.SlicerCaches(SLICER_NAME)
+            # select only needed data in slicer
+            sl.VisibleSlicerItemsList = data
+
+        except Exception as e:
+            print(e)
+
+        finally:
+            # RELEASES RESOURCES
+            wb = None
+        
+    if MODE == 'MODELS':
+        bom_array = []
+        with open(data_folder / 'bom_items.txt', 'r') as my_file:
+            for line in my_file:
+                for model in MODELS:
+                    if model in line and not_in_guides(line):
+                        bom_array.append(line)
+                        break
+
+        with open(data_folder / 'bom_filtered_models.txt', 'w') as f:
+            f.truncate(0)
+
+            for item in bom_array:
+                f.write(item)
+
+        # filling array with already filtered BOM data
+        data = []
+
+        with open(data_folder / 'bom_filtered_models.txt', 'r') as my_file:
+            for line in my_file:
+                data.append(line.rstrip('\n'))
+
+        # open appropriate excel document
+        try:
+            wb = WORK_BOOK
+            sl = wb.SlicerCaches(SLICER_NAME)
+            # select only needed data in slicer
+            sl.VisibleSlicerItemsList = data
+
+        except Exception as e:
+            print(e)
+
+        finally:
+            # RELEASES RESOURCES
+            wb = None
 
 
-def prepare(SLICER_NAME, MODE):
+def prepare(SLICER_NAME):
     allSlicerElements = ()
 
     try:
@@ -104,33 +158,3 @@ def prepare(SLICER_NAME, MODE):
 
         for elem in allSlicerElements:
             f.write(elem + '\n')
-
-    bom_array = []
-
-    if MODE == 'Guides':
-        with open(data_folder / 'bom_items.txt', 'r') as my_file:
-            for line in my_file:
-                for elem in GUIDES:
-                    if elem in line:
-                        bom_array.append(line)
-                        break
-
-        with open(data_folder / 'bom_filtered.txt', 'w') as f:
-            f.truncate(0)
-
-            for item in bom_array:
-                f.write(item)
-
-    if MODE == 'Models':
-        with open(data_folder / 'bom_items.txt', 'r') as my_file:
-            for line in my_file:
-                for model in MODELS:
-                    if model in line and not_in_guides(line):
-                        bom_array.append(line)
-                        break
-
-        with open(data_folder / 'bom_filtered.txt', 'w') as f:
-            f.truncate(0)
-
-            for item in bom_array:
-                f.write(item)
