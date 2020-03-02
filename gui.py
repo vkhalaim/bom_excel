@@ -33,7 +33,7 @@ slicer_name_guides.grid(row=1, column=1, columnspan=3, sticky=W+E, padx=10)
 #Check Slicer name for models
 ttk.Label(text="Name of Slicer for models:").grid(row=2, column=0, sticky=W, pady=10, padx=WINDOW_WIDTH/5)
 slicer_name_models = ttk.Entry()
-slicer_name_models.insert(END, "Slicer_Medical_Case")
+slicer_name_models.insert(END, "Slicer_BOM1")
 slicer_name_models.grid(row=2, column=1, columnspan=3, sticky=W+E, padx=10)
 
 #prepare filtering

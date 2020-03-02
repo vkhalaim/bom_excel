@@ -14,7 +14,7 @@ GUIDES = ["SD900.101", "SD900.102", "SD900.104", "SD900.105", "SD900.106",
           "SD900.001", "SD900.003", "SD900.004", "SD900.006", "SD900.008",
           "SD900.009", "SD900.010", "SD900.011", "SD900.051", "SD900.054",
           "SD900.056", "SD980.001", "SD980.002", "SD980.005", "SD980.006",
-          "SD980.009", "SD980.120", "OBL031-F", "OBL032-F", "OBL033-F",
+          "SD980.009", "OBL031-F", "OBL032-F", "OBL033-F",
           "OBL034-F", "OBL035-F", "OBL171-F", "OBL172-F", "OBL173-F",  "OBL174-F",
           "OBL175-F", "OBL041-F"]
 MODELS = ['SD900.201', 'SD900.202', 'SD900.203', 'SD900.204', 'SD900.205',
@@ -28,16 +28,17 @@ MODELS = ['SD900.201', 'SD900.202', 'SD900.203', 'SD900.204', 'SD900.205',
           'SD900.336', 'SD900.337', 'SD900.338', 'SD900.339', 'SD900.361',
           'SD900.362', 'SD900.363', 'SD900.364', 'SD900.365', 'SD900.366',
           'SD900.367', 'SD900.368', 'SD900.369', 'SD900.370', 'SD900.381',
-          'SD900.383', 'SD900.384', 'SD900.385', 'OBL011-F', 'OBL012-F',
+          'SD900.382', 'SD900.383', 'SD900.384', 'SD900.385', 'OBL011-F', 'OBL012-F',
           'OBL013-F', 'OBL014-F', 'OBL015-F', 'OBL016-F', 'OBL017-F', 'OBL021-F',
-          'OBL022-F', 'OBL023-F', 'OBL024-F', 'OBL025-F', 'OBL026-F', 'OBL027-F']
+          'OBL022-F', 'OBL023-F', 'OBL024-F', 'OBL025-F', 'OBL026-F', 'OBL027-F'
+          ]
 
 
 def not_in_guides(line):
     for guide in GUIDES:
         if guide in line:
             return False
-
+    print(line)
     return True
 
 
@@ -80,7 +81,6 @@ def filtering(SLICER_NAME, MODE):
             for item in bom_array:
                 f.write(item)
 
-        bom_array = []
         # filling array with already filtered BOM data
         data = []
 
